@@ -1,0 +1,3 @@
+[submodule "web-producer"]
+	path = web-producer
+	url = git@github.com:cicero-reis/web-producer.git
