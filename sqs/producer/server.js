@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { SQS, QUEUE_URL } from "./config.js";
+import sqsClient from "./sqs_sendmessage.js";
 
 const app = express();
 
@@ -8,26 +8,20 @@ app.use(cors());
 
 app.use(express.json());
 
-const send = async (body) => {
-  return await SQS.sendMessage({
-    MessageBody: JSON.stringify(body),
-    QueueUrl: QUEUE_URL,
-  });
-};
-
-app.post("/send-message", async (req, res) => {
-  (await send(req.body))
-    .promise()
+app.post("/send-message", (req, res) => {
+  sqsClient(req.body)
     .then((data) => {
+      console.log(data.MessageId);
       res.status(200).json({
         status: "success",
-        data,
+        message: "Mensagem enviada com sucesso",
       });
     })
-    .catch((error) => {
+    .catch((err) => {
+      console.log(err.message);
       res.status(500).json({
         status: "error",
-        error: error.message,
+        message: "Ops! Algo deu muito errado",
       });
     });
 });
