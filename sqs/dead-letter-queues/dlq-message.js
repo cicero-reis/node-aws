@@ -10,14 +10,11 @@ const processar = async () => {
   if (messages.Messages) {
     messages.Messages.forEach(async (message) => {
       try {
-        const body = JSON.parse(message.Body);
-        console.log("processing message...");
-        console.log(body);
         await SQS.deleteMessage({
           QueueUrl: QUEUE_URL,
           ReceiptHandle: message.ReceiptHandle,
         }).promise();
-        console.log("Message processed (and deleted) successfully!");
+        console.log("DLQ message successfully processed (and deleted)");
       } catch (error) {
         console.log(error);
       }

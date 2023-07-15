@@ -40,8 +40,20 @@ variable "bucket_consumer" {
   default     = "vuejs-consumer"
 }
 
+variable "sqs_producer_contract_queue" {
+  description = "Produce contract messages"
+  type        = string
+  default     = "contract-message"
+}
+
+variable "sqs_producer_contract_queue_dlq" {
+  description = "Produce contract messages"
+  type        = string
+  default     = "contract-message-dlq"
+}
+
 variable "tags" {
-  description = "Tags to set on the bucket."
+  description = "Tags to set..."
   type        = map(string)
   default     = {}
 }
